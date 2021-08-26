@@ -1,69 +1,73 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-long long fun(long long n)
+int fun(string s)
 {
-    long long arr[n], arr2[n];
-    set<long long>s;
-    for(long long i=0;i<n;i++)
+    int n=s.length();
+    if(n>1)
     {
-        long long a,b;
-        cin>>arr[i]>>arr2[i];
-        s.insert(arr[i]);
-    }
-    long long m=s.size();
-    vector<vector<long long>>v(m);
-    map<long long,long long>map;
-    map.clear();
-    long long k=0,f=0;
-    for(long long i=0;i<n;i++)
-    {
-        if(map[arr[i]]==0&&arr[i]!=f)
+        if(s[0]=='1')
         {
-            map[arr[i]]=k;
-            // cout<<arr[i]<<"->"<<map[arr[i]]<<" ";
-            k++;
+            if(s[1]=='0')
+            {
+                s[1]='2';
+                s[0]='3';
+            }
         }
-        if(i==0)
-        f=arr[0];
+        if(s[n-1]=='0')
+        {
+            if(s[n-2]=='1')
+            {
+                s[n-2]='3';
+                s[n-1]='2';
+            }
+        }
     }
-    // cout<<endl;
-    for(long long i=0;i<n;i++)
+    
+    
+    for(int i=1;i<n;i++)
     {
-        v[map[arr[i]]].push_back(arr2[i]);
-        // cout<<map[arr[i]]<<" ";
+        if(s[i]=='1')
+        {
+            if(s[i-1]=='0')
+            {
+                s[i-1]='2';
+                s[i]='3';
+            }
+        }
+        if(s[i]=='1'&&i!=n-1)
+        {
+            if(s[i+1]=='0')
+            {
+                s[i+1]='2';
+                s[i]='3';
+            }
+        }
     }
-    for(long long i=0;i<m;i++)
+    
+    // cout<<" "<<s<<" ";
+    int zero=0,one=0;
+    for(int i=0;i<n;i++)
     {
-        sort(v[i].begin(),v[i].end());
+        if(s[i]=='1'||s[i]=='3')
+        one++;
+        if(s[i]=='0')
+        zero++;
     }
-    long long ans=0;
-    long long a[m];
-    for(long long i=0;i<m;i++)
-    {
-        a[i]=v[i][0];
-    }
-    sort(a,a+m);
-    for(long long i=0;i<m;i++)
-    {
-        ans+=a[i]*(i+1);
-    }
-    for(long long i=0;i<m;i++)
-    {
-        for(long long j=1;j<v[i].size();j++)
-        ans+=v[i][j]*m;
-    }
-
-    return ans;
-
-
+    if(one==zero)
+    return -1;
+    if(one>zero)
+    return 1;
+    else
+    return 0;
 }
 int main() {
-   long long t;
-   cin>>t;
-   while(t--)
-   {
-       long long n;
-       cin>>n;
-       cout<<fun(n)<<endl;
-   }
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s;
+        cin>>s;
+        cout<<fun(s)<<endl;
+    }
+
 }
